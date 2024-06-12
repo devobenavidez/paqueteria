@@ -2,7 +2,7 @@ package com.empresa.paqueteria.models
 
 abstract class Repartidor(codigosPostalesPermitidos: Set[String]) {
   println(s"Constructor de Repartidor - tamaño de codigosPostalesPermitidos: ${codigosPostalesPermitidos.size}")
-  require(codigosPostalesPermitidos.size <= 4, "No se pueden asignar más de 4 códigos postales a un repartidor")
+  require(codigosPostalesPermitidos.size <= 2, "No se pueden asignar más de 4 códigos postales a un repartidor")
   println("Pasó la validación de require")
 
   protected val pesoMaximoPermitido: Double
