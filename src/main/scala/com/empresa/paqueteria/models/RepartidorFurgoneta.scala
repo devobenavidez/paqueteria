@@ -1,6 +1,7 @@
 package com.empresa.paqueteria.models
 
 class RepartidorFurgoneta(codigosPostalesPermitidos: Set[String]) extends Repartidor(codigosPostalesPermitidos) {
+  override protected val pesoMaximoPermitido: Double = 1000.0
   override def asignarPaquete(paquete: Paquete): Unit = {
     if (codigosPostalesPermitidos.contains(paquete.codigoPostal)) {
       super.asignarPaquete(paquete)

@@ -50,6 +50,24 @@ class RepartidorCocheTest extends AnyFunSuite {
     assert(paqueteEntregado.estadoEntrega)
   }
 
+  test("No se puede asignar un paquete que exceda el peso máximo permitido a Ana") {
+    val codigosPostales = Set("08001", "08002", "08003", "08004")
+    val paquete1 = Paquete("7", 400.0, "08001", false)
+    val paquete2 = Paquete("8", 200.0, "08002", false)
+    val repartidorCoche = new RepartidorCoche(codigosPostales)
+
+    // Asignar paquetes
+    repartidorCoche.asignarPaquete(paquete1)
+    repartidorCoche.asignarPaquete(paquete2)
+
+    // Verificar que el segundo paquete no se asignó
+    val paquetesAsignados = repartidorCoche.obtenerPaquetesAsignados
+
+
+    assert(paquetesAsignados.contains(paquete1))
+    assert(!paquetesAsignados.contains(paquete2))
+  }
+
   test("No se pueden asignar más de 4 códigos postales a un repartidor") {
     val codigosPostales = Set("08001", "08002", "08003", "08004", "08005")
 

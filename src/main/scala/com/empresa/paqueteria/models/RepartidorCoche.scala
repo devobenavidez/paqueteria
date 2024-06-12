@@ -1,12 +1,14 @@
 package com.empresa.paqueteria.models
 
 class RepartidorCoche(codigosPostalesPermitidos: Set[String]) extends Repartidor(codigosPostalesPermitidos) {
+  override protected val pesoMaximoPermitido: Double = 500.0
+
   override def asignarPaquete(paquete: Paquete): Unit = {
-    if (codigosPostalesPermitidos.contains(paquete.codigoPostal)) {
-      super.asignarPaquete(paquete)
+    val asignado = super.asignarPaqueteAux(paquete)
+    if (asignado) {
       println(s"Paquete ${paquete.id} asignado a la ruta de Ana (coche)")
     } else {
-      println(s"Error: Código postal ${paquete.codigoPostal} no permitido para Ana")
+      println(s"Error: No se pudo asignar el paquete ${paquete.id} a la ruta de Ana (coche)")
     }
   }
 
