@@ -3,7 +3,7 @@ package com.empresa.paqueteria
 import org.scalatest.funsuite.AnyFunSuite
 import com.empresa.paqueteria.models._
 
-class RepartidorCocheTest extends AnyFunSuite {
+class RepartidorTest extends AnyFunSuite {
 
   test("Asignación de paquetes a la ruta de Ana dentro de los códigos postales permitidos") {
     val codigosPostales = Set("08001", "08002")
@@ -41,7 +41,7 @@ class RepartidorCocheTest extends AnyFunSuite {
 
     // Asignar y luego entregar el paquete
     repartidorCoche.asignarPaquete(paquete)
-    repartidorCoche.entregarPaquete(paquete)
+    repartidorCoche.entregarPaquete(paquete, "DNI12345678")
 
     // Crear una copia del paquete con el estado de entrega actualizado
     val paqueteEntregado = paquete.copy(estadoEntrega = true)
@@ -74,5 +74,21 @@ class RepartidorCocheTest extends AnyFunSuite {
     assertThrows[IllegalArgumentException] {
       new RepartidorCoche(codigosPostales)
     }
+  }
+
+  test("Entrega de paquetes con firma/DNI y notificación al cliente") {
+    val codigosPostales = Set("08001", "08002", "08003", "08004")
+    val paquete = Paquete("9", 100.0, "08001", false)
+    val repartidorCoche = new RepartidorCoche(codigosPostales)
+
+    // Asignar paquete
+    repartidorCoche.asignarPaquete(paquete)
+
+    // Entregar paquete con firma/DNI
+    repartidorCoche.entregarPaquete(paquete, "DNI12345678")
+
+    // Verificar que el paquete está entregado
+    val paquetesAsignados = repartidorCoche.obtenerPaquetesAsignados
+    assert(paquetesAsignados.exists(p => p.id == paquete.id && p.estadoEntrega))
   }
 }
